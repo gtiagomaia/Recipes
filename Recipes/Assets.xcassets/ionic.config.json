@@ -1,7 +1,0 @@
-{
-  "name": "Recipes",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "custom"
-}
