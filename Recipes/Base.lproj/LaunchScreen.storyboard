@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launchscreen" highlightedImage="icon" translatesAutoresizingMaskIntoConstraints="NO" id="oBH-va-Y3h">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launchscreen" highlightedImage="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="oBH-va-Y3h">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="903"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -45,7 +45,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon" width="1024" height="1024"/>
         <image name="launchscreen" width="2732" height="2732"/>
     </resources>
 </document>

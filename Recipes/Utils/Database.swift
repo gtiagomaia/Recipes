@@ -435,7 +435,7 @@ class Database {
      */
     
     func updateCategory(category:Category) {
-        let updateStatementString = "UPDATE Category SET name='?' WHERE id=?;"
+        let updateStatementString = "UPDATE Category SET name=? WHERE id=?;"
         var updateStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
             
@@ -446,6 +446,7 @@ class Database {
             
             if sqlite3_step(updateStatement) == SQLITE_DONE {
                 print("Successfully updated row.")
+                print(category)
             } else {
                 print("Could not update row.")
             }

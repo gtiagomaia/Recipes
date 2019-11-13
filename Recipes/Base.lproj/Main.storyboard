@@ -92,7 +92,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="EditButton" destination="EoY-fj-mi4" id="n1c-IM-ULD"/>
-                        <segue destination="qhG-Tl-Gna" kind="push" identifier="editCategories" id="Aco-a7-PSL"/>
+                        <segue destination="qhG-Tl-Gna" kind="show" identifier="editCategories" id="Aco-a7-PSL"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wVf-BS-CCt" userLabel="First Responder" sceneMemberID="firstResponder"/>
