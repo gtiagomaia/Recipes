@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol interfaceRecipesDelegate {
+protocol InterfaceRecipesDelegate {
     func changeRecipesDictionary(dic:Dictionary<Category, [Recipe]>)
 }

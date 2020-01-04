@@ -8,7 +8,9 @@
 
 import Foundation
 
-class Category: NSObject, Codable  {
+class Category: NSObject, Codable, Comparable  {
+   
+    
     var id:Int32 = -1
     var name:String = ""
     
@@ -20,4 +22,13 @@ class Category: NSObject, Codable  {
     public override var description: String {
         return "(\(String(describing: name)), \(id))"
     }
+    
+    static func < (lhs: Category, rhs: Category) -> Bool {
+        return lhs.name < rhs.name
+    }
+    static func > (lhs: Category, rhs: Category) -> Bool {
+        return lhs.name > rhs.name
+    }
+    
+    
 }

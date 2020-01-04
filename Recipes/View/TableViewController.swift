@@ -8,7 +8,9 @@
 
 import UIKit
 
-class TableViewController: UITableViewController, interfaceRecipesDelegate {
+class TableViewController: UITableViewController, InterfaceRecipesDelegate, UISearchResultsUpdating {
+
+    
    
     
     @IBOutlet weak var EditButton: UIBarButtonItem!
@@ -17,12 +19,14 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
     var dictionary: Dictionary<Category, [Recipe]> = [Category: [Recipe]]() //init empty dictionary like .init()
     var array = [Category]() //array of categories in dictionary
    // let cellSpacingHeight: CGFloat = 5
-    
+    let searchController = UISearchController(searchResultsController: nil)
+    var recipesFiltered = [Recipe]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initDictionaryDataSource()
-        array = dictionary.compactMap{$0.key}
+        array = dictionary.compactMap{$0.key}.sorted(by: <)
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -44,6 +48,15 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
          }
          */
         
+        
+        //search bar
+        //navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self as? UISearchResultsUpdating
+        searchController.hidesNavigationBarDuringPresentation = false
+        navigationItem.hidesSearchBarWhenScrolling = true
+        searchController.dimsBackgroundDuringPresentation = false
+        tableView.tableHeaderView = searchController.searchBar
+        
     }
     
     func initDictionaryDataSource(){
@@ -56,8 +69,8 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
         }
         
         //test add recipe (title:String, category:Int32, ingredients:[Ingredient], description:String, duration:Int32) {
-        let recipe = Recipe(id: 22, title: "BACALHAU A BRAS", category: categories[2].id,ingredients: [Ingredient(name: "bacalhau", quantity: 2, unit: "uni."),Ingredient(name: "chips", quantity: 1, unit: "uni."), Ingredient(name: "onion", quantity: 1, unit: "uni.")  ], description: "Bacalhau à Bras (or bacalhau à Braz) is a very easy recipe to prepare. Of course, if you use salted cod, you need to plan ahead for the soaking stage. However, when you have your fresh salted cod ready, you can whip up this recipe in less than 30 minutes. Some people may prefer to make their own matchstick fried potatoes. However, most Portuguese families us packaged matchstick chips, and the favored brand is batatas pála-pála. The eggs, that are added toward the end of the recipe, should be half cooked to offer a creamy and unctuous end result.", duration: 30)
-        database.insertRecipe(recipe: recipe)
+//        let recipe = Recipe(id: 22, title: "BACALHAU A BRAS", category: categories[2].id,ingredients: [Ingredient(name: "bacalhau", quantity: 2, unit: "uni."),Ingredient(name: "chips", quantity: 1, unit: "uni."), Ingredient(name: "onion", quantity: 1, unit: "uni.")  ], description: "Bacalhau à Bras (or bacalhau à Braz) is a very easy recipe to prepare. Of course, if you use salted cod, you need to plan ahead for the soaking stage. However, when you have your fresh salted cod ready, you can whip up this recipe in less than 30 minutes. Some people may prefer to make their own matchstick fried potatoes. However, most Portuguese families us packaged matchstick chips, and the favored brand is batatas pála-pála. The eggs, that are added toward the end of the recipe, should be half cooked to offer a creamy and unctuous end result.", duration: 30)
+//        database.insertRecipe(recipe: recipe)
         // dbconnect.getAllRecipes()
         
         
@@ -150,6 +163,12 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
         performSegue(withIdentifier: "editCategories", sender: sender)
     }
     
+    @IBAction func addRecipe(_ sender: Any) {
+        
+        performSegue(withIdentifier: "addRecipe", sender: sender)
+    }
+    
+    
     // MARK - navigation: passing data with segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -161,6 +180,14 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
             let categoryVC = (segue.destination as! CategoryTableViewController)
             categoryVC.delegate = self
         }
+        
+        if segue.identifier == "addRecipe" {
+            let addrecipeVC = (segue.destination) as!  AddRecipeViewController
+            addrecipeVC.delegate = self
+        
+        }
+        
+        
         
         
     }
@@ -177,4 +204,25 @@ class TableViewController: UITableViewController, interfaceRecipesDelegate {
         tableView.reloadData()
     }
     
+    
+    
+    
+    // MARK - search bar update results
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        
+        print("search bar array.count:\(array.count)")
+        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+             print("searchText:\(searchText)")
+            for i in 0...(array.count - 1) {
+                recipesFiltered += (dictionary[array[i]]?.filter({ recipe in
+                    return recipe.title.lowercased().contains(searchText.lowercased())
+                })) ?? [Recipe]()
+                
+                print(recipesFiltered)
+            }
+        }
+        
+        tableView.reloadData()
+    }
 }

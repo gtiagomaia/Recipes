@@ -17,6 +17,10 @@
 		A975097123747514004517E5 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = A975097023747514004517E5 /* Database.swift */; };
 		A9750974237476F0004517E5 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9750973237476F0004517E5 /* Recipe.swift */; };
 		A97509762374776F004517E5 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = A97509752374776F004517E5 /* Category.swift */; };
+		A989E948238D664300E72F1B /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A989E947238D664300E72F1B /* Unit.swift */; };
+		A989E94A238E935200E72F1B /* IngredientsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A989E949238E935200E72F1B /* IngredientsTableViewController.swift */; };
+		A989E94C238E95C300E72F1B /* SelfSizedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A989E94B238E95C300E72F1B /* SelfSizedTableView.swift */; };
+		A98B5FD1238AF48400D1127A /* AddRecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98B5FD0238AF48400D1127A /* AddRecipeViewController.swift */; };
 		A9E2966E2379D03200F48F34 /* InterfaceRecipes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E2966D2379D03200F48F34 /* InterfaceRecipes.swift */; };
 		A9E296712379D14800F48F34 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E296702379D14800F48F34 /* CategoryTableViewController.swift */; };
 		A9E29673237A09D500F48F34 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E29672237A09D500F48F34 /* Extensions.swift */; };
@@ -36,6 +40,10 @@
 		A975097023747514004517E5 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		A9750973237476F0004517E5 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		A97509752374776F004517E5 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		A989E947238D664300E72F1B /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
+		A989E949238E935200E72F1B /* IngredientsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsTableViewController.swift; sourceTree = "<group>"; };
+		A989E94B238E95C300E72F1B /* SelfSizedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedTableView.swift; sourceTree = "<group>"; };
+		A98B5FD0238AF48400D1127A /* AddRecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeViewController.swift; sourceTree = "<group>"; };
 		A9E2966D2379D03200F48F34 /* InterfaceRecipes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceRecipes.swift; sourceTree = "<group>"; };
 		A9E296702379D14800F48F34 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 		A9E29672237A09D500F48F34 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 			children = (
 				A9750973237476F0004517E5 /* Recipe.swift */,
 				A97509752374776F004517E5 /* Category.swift */,
+				A989E947238D664300E72F1B /* Unit.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -119,6 +128,9 @@
 				A972A01F237979EC005263C4 /* TableViewController.swift */,
 				A9E296702379D14800F48F34 /* CategoryTableViewController.swift */,
 				A9E29674237A1C6800F48F34 /* EditCategoryTableViewController.swift */,
+				A98B5FD0238AF48400D1127A /* AddRecipeViewController.swift */,
+				A989E949238E935200E72F1B /* IngredientsTableViewController.swift */,
+				A989E94B238E95C300E72F1B /* SelfSizedTableView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -194,12 +206,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A989E948238D664300E72F1B /* Unit.swift in Sources */,
+				A98B5FD1238AF48400D1127A /* AddRecipeViewController.swift in Sources */,
 				A91169F22368C8700005910A /* AppDelegate.swift in Sources */,
 				A975097123747514004517E5 /* Database.swift in Sources */,
 				A972A020237979EC005263C4 /* TableViewController.swift in Sources */,
 				A91169FA2368C8700005910A /* Recipes.xcdatamodeld in Sources */,
 				A9E2966E2379D03200F48F34 /* InterfaceRecipes.swift in Sources */,
 				A9750974237476F0004517E5 /* Recipe.swift in Sources */,
+				A989E94C238E95C300E72F1B /* SelfSizedTableView.swift in Sources */,
+				A989E94A238E935200E72F1B /* IngredientsTableViewController.swift in Sources */,
 				A9E296712379D14800F48F34 /* CategoryTableViewController.swift in Sources */,
 				A97509762374776F004517E5 /* Category.swift in Sources */,
 				A9E29673237A09D500F48F34 /* Extensions.swift in Sources */,

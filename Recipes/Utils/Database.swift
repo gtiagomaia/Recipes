@@ -260,7 +260,7 @@ class Database {
      actions SEARCH ALL Categories
      */
     func getAllCategories() -> [Category]{
-        let queryStatementString = "SELECT * FROM Category;"
+        let queryStatementString = "SELECT * FROM Category ORDER BY name;"
         var queryStatement: OpaquePointer? = nil
         var listCategories = [Category]()
         
@@ -297,7 +297,7 @@ class Database {
      */
    
     func getAllRecipes() -> [Recipe]{
-        let queryStatementString = "SELECT * FROM Recipes;"
+        let queryStatementString = "SELECT * FROM Recipes ORDER BY title;"
         var queryStatement: OpaquePointer? = nil
         var listRecipes = [Recipe]()
         // 1

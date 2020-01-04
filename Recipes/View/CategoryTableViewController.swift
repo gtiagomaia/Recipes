@@ -118,5 +118,67 @@ class CategoryTableViewController: UITableViewController {
         tableView.reloadData()
         
     }
+    
+    func deleteCategory(){
+        print("item deleted")
+    }
 
+   //swipe to delete and edit
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let edit = UIContextualAction(style: .normal, title: "Edit") { action, view, completion in
+            self.performSegue(withIdentifier: "editCategoryRow", sender: self)
+            completion(true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+            self?.delegate?.array.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            self?.deleteCategory()
+            completion(true)
+        }
+        
+        edit.backgroundColor = .purple
+       //edit.image = #imageLiteral(resourceName: "edit")
+        delete.backgroundColor = .red
+       // delete.image = #imageLiteral(resourceName: "delete")
+        
+        
+        return UISwipeActionsConfiguration(actions: [delete, edit])
+    }
+    
+    
+    
+    /**
+     alert action to add new category
+     */
+    
+    @IBAction func addNewCategory(_ sender: Any) {
+        let alertController = UIAlertController(title: "New Category", message: "", preferredStyle: .alert)
+        alertController.addTextField { (textField : UITextField!) -> Void in
+            textField.placeholder = "Enter name"
+        }
+        
+        let saveAction = UIAlertAction(title: "Confirm", style: .default, handler: { alert -> Void in
+            if let textField = alertController.textFields?[0] {
+                if textField.text!.count > 0 {
+                    print("Text :: \(textField.text ?? "")")
+                }
+                print("add new Category")
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+            (action : UIAlertAction!) -> Void in })
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(saveAction)
+        
+        alertController.preferredAction = saveAction
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
 }

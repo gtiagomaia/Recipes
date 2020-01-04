@@ -8,7 +8,8 @@
 
 import Foundation
 
-class Recipe: Codable {
+class Recipe: Codable, Comparable {
+    
     var id:Int32?
     var title:String = ""
     var categoryid:Int32
@@ -25,6 +26,23 @@ class Recipe: Codable {
         self.description = description
         self.duration = duration
     }
+    
+    
+    static func < (lhs: Recipe, rhs: Recipe) -> Bool {
+         return lhs.title < rhs.title
+    }
+    
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        return lhs.title == lhs.title
+    }
+    
+    static func byDurationASC (lhs: Recipe, rhs:Recipe) -> Bool {
+        return lhs.duration < rhs.duration
+    }
+    static func byDurationDESC (lhs: Recipe, rhs:Recipe) -> Bool {
+        return lhs.duration > rhs.duration
+    }
+    
 }
 
 struct Ingredient: Codable {
