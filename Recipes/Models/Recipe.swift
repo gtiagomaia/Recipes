@@ -27,6 +27,14 @@ class Recipe: Codable, Comparable {
         self.duration = duration
     }
     
+    init( title:String, category:Int32, ingredients:[Ingredient], description:String, duration:Int32) {
+        self.title = title
+        self.categoryid = category
+        self.ingredients = ingredients
+        self.description = description
+        self.duration = duration
+    }
+    
     
     static func < (lhs: Recipe, rhs: Recipe) -> Bool {
          return lhs.title < rhs.title

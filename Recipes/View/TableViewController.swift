@@ -69,8 +69,8 @@ class TableViewController: UITableViewController, InterfaceRecipesDelegate, UISe
         }
         
         //test add recipe (title:String, category:Int32, ingredients:[Ingredient], description:String, duration:Int32) {
-//        let recipe = Recipe(id: 22, title: "BACALHAU A BRAS", category: categories[2].id,ingredients: [Ingredient(name: "bacalhau", quantity: 2, unit: "uni."),Ingredient(name: "chips", quantity: 1, unit: "uni."), Ingredient(name: "onion", quantity: 1, unit: "uni.")  ], description: "Bacalhau à Bras (or bacalhau à Braz) is a very easy recipe to prepare. Of course, if you use salted cod, you need to plan ahead for the soaking stage. However, when you have your fresh salted cod ready, you can whip up this recipe in less than 30 minutes. Some people may prefer to make their own matchstick fried potatoes. However, most Portuguese families us packaged matchstick chips, and the favored brand is batatas pála-pála. The eggs, that are added toward the end of the recipe, should be half cooked to offer a creamy and unctuous end result.", duration: 30)
-//        database.insertRecipe(recipe: recipe)
+        //let recipe = Recipe(id: 22, title: "BACALHAU A BRAS", category: categories[2].id,ingredients: [Ingredient(name: "bacalhau", quantity: 2, unit: "uni."),Ingredient(name: "chips", quantity: 1, unit: "uni."), Ingredient(name: "onion", quantity: 1, unit: "uni.")  ], description: "Bacalhau à Bras (or bacalhau à Braz) is a very easy recipe to prepare. Of course, if you use salted cod, you need to plan ahead for the soaking stage. However, when you have your fresh salted cod ready, you can whip up this recipe in less than 30 minutes. Some people may prefer to make their own matchstick fried potatoes. However, most Portuguese families us packaged matchstick chips, and the favored brand is batatas pála-pála. The eggs, that are added toward the end of the recipe, should be half cooked to offer a creamy and unctuous end result.", duration: 30)
+        //database.insertRecipe(recipe: recipe)
         // dbconnect.getAllRecipes()
         
         
@@ -117,6 +117,10 @@ class TableViewController: UITableViewController, InterfaceRecipesDelegate, UISe
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return array[section].name
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "recipeviewsegue", sender: self)
     }
     
     /*
@@ -174,7 +178,7 @@ class TableViewController: UITableViewController, InterfaceRecipesDelegate, UISe
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
+        print(segue.identifier ?? "prepare...failed")
         if segue.identifier == "editCategories"{
             
             let categoryVC = (segue.destination as! CategoryTableViewController)
@@ -187,23 +191,54 @@ class TableViewController: UITableViewController, InterfaceRecipesDelegate, UISe
         
         }
         
-        
+        if segue.identifier == "recipeviewsegue" {
+            print("recipeviewsegue")
+            let recipeVC = (segue.destination) as!  RecipeViewController
+            recipeVC.delegate = self
+            recipeVC.category = array[tableView.indexPathForSelectedRow!.section]
+            
+            let recipes = dictionary[recipeVC.category]!
+            recipeVC.recipe = recipes[tableView.indexPathForSelectedRow!.row]
+        }
         
         
     }
     
     
     func changeRecipesDictionary(dic: Dictionary<Category, [Recipe]>) {
-        
-        
         print("changeRecipesDictionary")
     }
     
+    
+    // MARK - reload
     func reloadArrayCategoriesfromDictionary(){
-        array = dictionary.compactMap{$0.key}
+        //array = dictionary.compactMap{$0.key}
+        array = dictionary.compactMap{$0.key}.sorted(by: <)
         tableView.reloadData()
     }
     
+    func reloadCategorysFromDatabase(){
+        dictionary.removeAll()
+        initDictionaryDataSource()
+        reloadArrayCategoriesfromDictionary()
+    }
+    
+    func reloadRecipeForCategory(category:Category){
+        dictionary.updateValue(database.getAllRecipesFromCategory(from: category), forKey: category)
+            //= database.getAllRecipesFromCategory(from: category.key)
+       tableView.reloadData()
+    }
+    
+//    func reloadArrayCategories(newcategory: Category){
+//        //array = dictionary.compactMap{$0.key}
+//        let categories = database.getAllCategories()
+//        if(categories.con == false){
+//            if(categories) != nil){
+//                dictionary[categories.last!] = [Recipe]() 
+//            }
+//        }
+//        reloadArrayCategoriesfromDictionary()
+//    }
     
     
     

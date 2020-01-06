@@ -11,6 +11,7 @@ import UIKit
 class CategoryTableViewController: UITableViewController {
     
     var delegate:TableViewController?
+    private var selectedRowToEdit:Int = -1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,9 +92,16 @@ class CategoryTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editCategoryRow" {
             let editCategoryVC = segue.destination as! EditCategoryTableViewController
+            
+            if( tableView.indexPathForSelectedRow?.row == nil){
+                editCategoryVC.categoryOld =
+                    delegate?.array[self.selectedRowToEdit]
+            }else{
+                editCategoryVC.categoryOld =
+                              delegate?.array[tableView.indexPathForSelectedRow?.row ?? 0]
+            }
          
-            editCategoryVC.categoryOld =
-                delegate?.array[tableView.indexPathForSelectedRow?.row ?? 0]
+          
         }
     }
 
@@ -121,20 +129,40 @@ class CategoryTableViewController: UITableViewController {
     
     func deleteCategory(){
         print("item deleted")
+        //delegate?.reloadArrayCategoriesfromDictionary()
     }
 
    //swipe to delete and edit
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let edit = UIContextualAction(style: .normal, title: "Edit") { action, view, completion in
+            
+            self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+            self.selectedRowToEdit = indexPath.row
             self.performSegue(withIdentifier: "editCategoryRow", sender: self)
             completion(true)
         }
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
-            self?.delegate?.array.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-            self?.deleteCategory()
+            
+            if(self?.delegate?.array[indexPath.row] != nil){
+
+                if(!(self?.delegate?.dictionary[(self?.delegate?.array[indexPath.row])!]!.isEmpty)! ){
+                    print("you cannot remove")
+                    return
+                }
+                
+                self?.delegate?.database.deleteCategory(category: (self?.delegate?.array[indexPath.row])!)
+                self?.delegate?.dictionary.removeValue(forKey: (self?.delegate?.array[indexPath.row])!)
+                
+                
+                   self?.delegate?.array.remove(at: indexPath.row)
+                   tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+                
+                self?.delegate?.reloadArrayCategoriesfromDictionary()
+                   //self?.deleteCategory() //call action
+            }
+           
             completion(true)
         }
         
@@ -154,21 +182,31 @@ class CategoryTableViewController: UITableViewController {
      */
     
     @IBAction func addNewCategory(_ sender: Any) {
-        let alertController = UIAlertController(title: "New Category", message: "", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Nova categoria", message: "", preferredStyle: .alert)
         alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter name"
+            textField.placeholder = "Insira o nome"
         }
         
-        let saveAction = UIAlertAction(title: "Confirm", style: .default, handler: { alert -> Void in
+        let saveAction = UIAlertAction(title: "Confirmar", style: .default, handler: { alert -> Void in
             if let textField = alertController.textFields?[0] {
                 if textField.text!.count > 0 {
                     print("Text :: \(textField.text ?? "")")
+                    
+                    if(textField.text != nil){
+                        self.delegate?.database.insertCategory(category: Category(id: 0, name: textField.text!))
+                        self.delegate?.reloadCategorysFromDatabase()
+                    }
+                    
+                    self.tableView.reloadData()
+                    
+                   
+                    
                 }
                 print("add new Category")
             }
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .default, handler: {
             (action : UIAlertAction!) -> Void in })
         
         alertController.addAction(cancelAction)

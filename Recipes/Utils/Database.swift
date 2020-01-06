@@ -27,6 +27,11 @@ class Database {
     init() {
         message = MessageDatabase.SUCESS
         initDataBase()
+        
+        //debug sqlite path simlator 
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir = dirPaths[0]
+        print(docsDir)
     }
     
     private func initDataBase(){
@@ -431,6 +436,34 @@ class Database {
     
     
     /*
+     actions INSERT Category
+     */
+    func insertCategory(category:Category) {
+        let insertCategoryStatementString = "INSERT INTO Category (name) VALUES (?);"
+        var insertStatement: OpaquePointer? = nil
+        
+        // 1
+        if sqlite3_prepare_v2(db, insertCategoryStatementString, -1, &insertStatement, nil) == SQLITE_OK {
+            
+           
+            sqlite3_bind_text(insertStatement, 1, category.name, -1, SQLITE_TRANSIENT)
+
+                    
+            // if was inserted with success
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        // finalize
+        sqlite3_finalize(insertStatement)
+    }
+    
+    
+    /*
      actions UPDATE Category
      */
     
@@ -463,7 +496,7 @@ class Database {
      */
     
     
-    func deleteRecipe(category:Category) {
+    func deleteCategory(category:Category) {
         let deleteStatementString = "DELETE FROM Category WHERE id = ?;"
         var deleteStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, deleteStatementString, -1, &deleteStatement, nil) == SQLITE_OK {
